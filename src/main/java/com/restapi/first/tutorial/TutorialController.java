@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -38,6 +39,30 @@ public class TutorialController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+@GetMapping("/tutorials/{id}")
+    public ResponseEntity<TutorialModel> getTutorialById(@PathVariable("id") long id){
+        try {
+            Optional<TutorialModel> tutorialData = tutorialRepositary.findById(id);
+            if(tutorialData.isPresent()){
+                return  new ResponseEntity<>(tutorialData.get(),HttpStatus.OK);
+            }else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+}
+@DeleteMapping("/tutorials/{id}")
+public ResponseEntity<String> deleteById(@PathVariable("id") long id){
+        try {
+            tutorialRepositary.deleteById(id);
+//            return  new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return  new ResponseEntity<>("Deleted Successfully",HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+}
+
     @PostMapping("/tutorials")
     public ResponseEntity<TutorialModel> createTutorial(@RequestBody TutorialModel tutorial){
        // System.out.println(tutorial.getTitle());
