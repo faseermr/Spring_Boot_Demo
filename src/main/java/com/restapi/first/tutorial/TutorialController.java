@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 @RestController
 @RequestMapping("/api")
 public class TutorialController {
@@ -32,6 +31,7 @@ public class TutorialController {
             if(tutorials.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }else {
+                System.out.println("Tutorial :"+ tutorials);
                 return new ResponseEntity<>(tutorials,HttpStatus.OK);
             }
 
@@ -73,6 +73,4 @@ public ResponseEntity<String> deleteById(@PathVariable("id") long id){
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-
 }
